@@ -1,13 +1,21 @@
 import json
 from pathlib import Path
 
+
+TASKS_FILE = Path(__file__).parent.parent / "files" / "tasks.json"
+
 def load():
-    if Path('../files/tasks.json').exists():
-        return json.load(open('../files/tasks.json', 'r'))
+    if TASKS_FILE.exists():
+        with open(TASKS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
     return []
 
 def save(tasks):
-    json.dump(tasks, open('../files/tasks.json', 'w'), indent=2, ensure_ascii=False)
+    
+    TASKS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(TASKS_FILE, "w", encoding="utf-8") as f:
+        json.dump(tasks, f, indent=2, ensure_ascii=False)
+
 
 tasks = load()
 print("""
@@ -17,8 +25,8 @@ print("""
 3. Delete
 4. Exit
     """)
-while True:
 
+while True:
     cmd = input("Menu > ")
 
     if cmd == "1":
@@ -36,8 +44,7 @@ while True:
                 print("Deleted!")
             else:
                 print("Invalid number!")
-
         except ValueError:
-            print(f"Enter a valid number!")
+            print("Enter a valid number!")
     elif cmd == "4":
         exit(0)
