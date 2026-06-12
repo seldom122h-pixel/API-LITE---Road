@@ -27,12 +27,12 @@ while True:
 -------------------------------
     """
     print(menu_str)
-    menu_input = input("Enter your choice: ")
+    menu_input = int(input("Enter your choice: "))
 
-    if menu_input == "1":
+    if menu_input == 1:
         print_balance()
 
-    elif menu_input == "2":
+    elif menu_input == 2:
         pin_check = int(input("Enter your pin code: "))
         if pin_check != pin:
             print("Wrong pin code!")
@@ -44,7 +44,7 @@ while True:
                 balance = balance - withdraw
                 print_balance()
 
-    elif menu_input == "3":
+    elif menu_input == 3:
         pin_check = int(input("Enter your pin code: "))
         if pin_check != pin:
             print("Wrong pin code!")
@@ -54,7 +54,7 @@ while True:
             print(f"Deposit successful!")
             print_balance()
 
-    if menu_input == "4":
+    elif menu_input == 4:
         print(f'Goodbye {name}!')
         break
     else:
