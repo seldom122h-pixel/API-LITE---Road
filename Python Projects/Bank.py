@@ -59,4 +59,3 @@ while True:
         break
     else:
         print("Please enter a valid choice!")
-
