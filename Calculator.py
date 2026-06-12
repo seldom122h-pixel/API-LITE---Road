@@ -1,3 +1,5 @@
+import optimize_maunt 
+
 print("""
    -Welcome to the Mini Project Calculator- 
     """)
@@ -44,6 +46,7 @@ while True:
         case "6":
             exit()
         case _:
+            Optimize()
             print("Invalid choice")
 
     if result is None:
