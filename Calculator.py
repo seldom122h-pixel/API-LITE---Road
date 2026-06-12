@@ -42,6 +42,7 @@ while True:
         case "5":
             result = input_num ** input_num_2
         case "6":
+            print('Goodbye!')
             exit()
         case _:
             print("Invalid choice")
