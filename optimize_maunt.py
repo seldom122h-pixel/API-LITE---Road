@@ -1,0 +1,3 @@
+def Optimize():
+    print('GoodBye!')
+    
