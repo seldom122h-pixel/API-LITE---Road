@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAUNT | Python Backend Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Light theme (default) */
+        body.light {
+            background: #f0f2f5;
+            color: #1e293b;
+        }
+        body.light .sidebar,
+        body.light .main-content {
+            background: white;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        body.light .skill-tag {
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            color: #1e3a8a;
+        }
+        body.light .stat-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+        body.light .code-block {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
+        }
+        body.light .highlight {
+            background: #eef2ff;
+            color: #1e3a8a;
+        }
+        body.light .contact-item,
+        body.light .project-list li {
+            color: #334155;
+        }
+        body.light .project-title {
+            color: #0f172a;
+        }
+
+        /* Dark theme */
+        body.dark {
+            background: #0a0f1a;
+            color: #e2e8f0;
+        }
+        body.dark .sidebar,
+        body.dark .main-content {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        body.dark .skill-tag {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #93c5fd;
+        }
+        body.dark .stat-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+        }
+        body.dark .code-block {
+            background: #0a0f1a;
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
+        }
+        body.dark .highlight {
+            background: #1e2a4a;
+            color: #93c5fd;
+        }
+        body.dark .contact-item,
+        body.dark .project-list li {
+            color: #cbd5e1;
+        }
+        body.dark .project-title {
+            color: white;
+        }
+        body.dark .name {
+            color: white;
+        }
+        body.dark .title {
+            color: #60a5fa;
+            border-bottom-color: #1e293b;
+        }
+        body.dark .section-title {
+            color: #60a5fa;
+        }
+        body.dark .tab-btn {
+            color: #94a3b8;
+        }
+        body.dark .tab-btn.active {
+            color: #60a5fa;
+            border-bottom-color: #3b82f6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .theme-toggle:hover {
+            background: #1e40af;
+            transform: scale(1.02);
+        }
+        body.dark .theme-toggle {
+            background: #3b82f6;
+        }
+
+        /* Grid */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 2.2fr;
+            gap: 28px;
+        }
+
+        /* Cards */
+        .sidebar, .main-content {
+            border-radius: 28px;
+            padding: 32px;
+            transition: all 0.2s;
+        }
+
+        /* Avatar - always dark blue */
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .avatar span {
+            font-size: 40px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid;
+        }
+
+        /* Contact items */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .contact-item:hover {
+            transform: translateX(4px);
+        }
+        body.light .contact-item:hover { color: #1e3a8a; }
+        body.dark .contact-item:hover { color: white; }
+        .contact-item a {
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        body.light .contact-item a { color: #334155; }
+        body.dark .contact-item a { color: #cbd5e1; }
+        body.light .contact-item a:hover { color: #1e40af; }
+        body.dark .contact-item a:hover { color: #60a5fa; }
+
+        /* Section titles - dark blue accent always */
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #1e3a8a;
+            margin: 28px 0 14px 0;
+        }
+        body.dark .section-title {
+            color: #60a5fa;
+        }
+
+        /* Skills tags */
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .skill-tag {
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: default;
+        }
+        .skill-tag:hover {
+            transform: scale(1.02);
+        }
+        body.light .skill-tag:hover {
+            background: #dbeafe;
+            border-color: #1e40af;
+        }
+        body.dark .skill-tag:hover {
+            background: #334155;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        /* Stats cards */
+        .stats {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            border-radius: 20px;
+            padding: 14px 18px;
+            text-align: center;
+            flex: 1;
+            min-width: 90px;
+            transition: 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        body.light .stat-card:hover {
+            border-color: #1e40af;
+            background: white;
+        }
+        body.dark .stat-card:hover {
+            border-color: #3b82f6;
+            background: #1e2a4a;
+        }
+        .stat-number {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+        body.dark .stat-number {
+            color: #60a5fa;
+        }
+        .stat-label {
+            font-size: 11px;
+            margin-top: 4px;
+        }
+        body.light .stat-label { color: #64748b; }
+        body.dark .stat-label { color: #94a3b8; }
+
+        /* Projects */
+        .project {
+            margin-bottom: 32px;
+            padding: 4px 0;
+        }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .project-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .project-stack span {
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        body.light .project-stack span {
+            background: #eef2ff;
+            color: #1e40af;
+        }
+        body.dark .project-stack span {
+            background: #1e293b;
+            color: #93c5fd;
+        }
+        .project-list {
+            padding-left: 20px;
+            margin: 12px 0;
+        }
+        .project-list li {
+            margin-bottom: 8px;
+        }
+        .project-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        body.light .project-link { color: #1e40af; }
+        body.dark .project-link { color: #60a5fa; }
+        .project-link:hover {
+            transform: translateX(3px);
+        }
+        body.light .project-link:hover { color: #0f2b6d; }
+        body.dark .project-link:hover { color: #93c5fd; }
+
+        /* Highlight banner */
+        .highlight {
+            border-left: 4px solid #1e3a8a;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        body.dark .highlight {
+            border-left-color: #3b82f6;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid;
+        }
+        body.light .tabs-container { border-bottom-color: #e2e8f0; }
+        body.dark .tabs-container { border-bottom-color: #1e293b; }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        body.light .tab-btn { color: #64748b; }
+        body.dark .tab-btn { color: #94a3b8; }
+        .tab-btn:hover {
+            color: #1e3a8a;
+        }
+        body.dark .tab-btn:hover { color: #93c5fd; }
+        .tab-btn.active {
+            color: #1e3a8a;
+            border-bottom-color: #1e3a8a;
+        }
+        body.dark .tab-btn.active {
+            color: #60a5fa;
+            border-bottom-color: #3b82f6;
+        }
+
+        .tab-content {
+            transition: 0.2s;
+        }
+
+        /* Code block */
+        .code-block {
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        body.light .code-block {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
+        }
+        body.dark .code-block {
+            background: #0a0f1a;
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid;
+        }
+        body.light hr { border-top-color: #e2e8f0; }
+        body.dark hr { border-top-color: #1e293b; }
+
+        @media (max-width: 900px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="light">
+    <button class="theme-toggle" id="themeToggle">🌙 Темная тема</button>
+
+    <div class="container">
+        <div class="two-columns">
+            <!-- LEFT COLUMN -->
+            <div class="sidebar">
+                <div class="avatar">
+                    <span>M</span>
+                </div>
+                <div class="name">MAUNT</div>
+                <div class="title">Python Backend Developer</div>
+
+                <div class="contact-item">📍 Россия / Удалённо</div>
+                <div class="contact-item">📧 <a href="mailto:seldom122h@gmail.com">seldom122h@gmail.com</a></div>
+                <div class="contact-item">💬 <a href="https://t.me/seldom122h_pixel" target="_blank">@seldom122h_pixel</a></div>
+                <div class="contact-item">📂 <a href="https://github.com/seldom122h-pixel" target="_blank">github.com/seldom122h-pixel</a></div>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">продакшен-проекта</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">85%</div>
+                        <div class="stat-label">покрытие тестами</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">часов практики</div>
+                    </div>
+                </div>
+
+                <div class="section-title">Технический стек</div>
+                <div class="skill-list">
+                    <span class="skill-tag">Python 3.11+</span>
+                    <span class="skill-tag">FastAPI</span>
+                    <span class="skill-tag">SQLAlchemy</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">Pytest</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">GitHub Actions</span>
+                    <span class="skill-tag">JWT</span>
+                    <span class="skill-tag">Async/await</span>
+                </div>
+
+                <div class="section-title">Soft skills</div>
+                <div class="skill-list">
+                    <span class="skill-tag">Самообучение</span>
+                    <span class="skill-tag">Code review</span>
+                    <span class="skill-tag">Документация</span>
+                    <span class="skill-tag">Работа с ИИ</span>
+                </div>
+
+                <div class="section-title">Английский</div>
+                <div class="skill-list">
+                    <span class="skill-tag">Intermediate (B1)</span>
+                    <span class="skill-tag">Техническая документация</span>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="main-content">
+                <div class="highlight">
+                    🔥 <strong>Ключевое преимущество:</strong> 2 живых проекта с тестами, Docker, CI/CD и деплоем. Код на GitHub, демо доступно.
+                </div>
+
+                <div class="section-title">О себе</div>
+                <p>Разрабатываю бэкенд на Python с 2025 года. Строю чистую архитектуру с сервисным слоем и тестами. Понимаю ценность документации и воспроизводимых окружений. Готов к стажировке или Junior-позиции.</p>
+
+                <div class="section-title">Проекты</div>
+                <div class="tabs-container">
+                    <button class="tab-btn active" data-tab="tab1">🏆 Основные</button>
+                    <button class="tab-btn" data-tab="tab2">⚙️ Архитектура</button>
+                    <button class="tab-btn" data-tab="tab3">📈 Что дальше</button>
+                </div>
+
+                <div id="tab1" class="tab-content">
+                    <div class="project">
+                        <div class="project-header">
+                            <div class="project-title">Table Booking API</div>
+                        </div>
+                        <div class="project-stack">
+                            <span>FastAPI</span><span>PostgreSQL</span><span>JWT</span><span>Pytest</span><span>Docker</span><span>CI/CD</span>
+                        </div>
+                        <ul class="project-list">
+                            <li>REST API для бронирования столиков с проверкой пересечений</li>
+                            <li>JWT-авторизация, роли пользователь/админ</li>
+                            <li>40+ тестов, покрытие 85%</li>
+                            <li>Docker + GitHub Actions + деплой на Render</li>
+                        </ul>
+                        <a href="#" class="project-link">🔗 GitHub →</a>
+                    </div>
+
+                    <div class="project">
+                        <div class="project-header">
+                            <div class="project-title">Student Assistant Bot</div>
+                        </div>
+                        <div class="project-stack">
+                            <span>FastAPI</span><span>PostgreSQL</span><span>BackgroundTasks</span><span>Webhooks</span>
+                        </div>
+                        <ul class="project-list">
+                            <li>Telegram-бот с расписанием и напоминаниями</li>
+                            <li>Асинхронные уведомления за 15 минут до пары</li>
+                            <li>5+ команд, данные в PostgreSQL</li>
+                        </ul>
+                        <a href="#" class="project-link">🤖 Демо бота →</a>
+                    </div>
+                </div>
+
+                <div id="tab2" class="tab-content" style="display: none;">
+                    <ul class="project-list">
+                        <li><strong>Service Layer</strong> — бизнес-логика вынесена из эндпоинтов</li>
+                        <li><strong>Repository pattern</strong> — абстракция над SQLAlchemy</li>
+                        <li><strong>DI через Depends</strong> (FastAPI)</li>
+                        <li><strong>Alembic</strong> — версионирование схемы БД</li>
+                        <li><strong>Ruff + pre-commit</strong> — единый стиль кода</li>
+                    </ul>
+                    <div class="code-block">
+                        # Пример сервисного слоя<br>
+                        class BookingService:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;def create_booking(self, data):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if self._is_conflict(data):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise ConflictError()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return self.repo.create(data)
+                    </div>
+                </div>
+
+                <div id="tab3" class="tab-content" style="display: none;">
+                    <div class="skill-list" style="margin-bottom: 16px;">
+                        <span class="skill-tag">async/asyncpg</span>
+                        <span class="skill-tag">Kafka (basic)</span>
+                        <span class="skill-tag">K8s (minikube)</span>
+                        <span class="skill-tag">Prometheus</span>
+                    </div>
+                    <p style="font-size: 14px;">Ежедневно практикуюсь, читаю статьи. Следующие 6 месяцев — углубление в асинхронность и микросервисы.</p>
+                </div>
+
+                <div class="section-title">Ключевые цифры</div>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">проектов в Docker</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">ручное тестирование</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">бот работает</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                themeToggle.textContent = '☀️ Светлая тема';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                themeToggle.textContent = '🌙 Темная тема';
+            }
+        });
+
+        // Tabs logic
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                tabs.forEach(b => b.classList.remove('active'));
+                contents.forEach(c => c.style.display = 'none');
+                btn.classList.add('active');
+                document.getElementById(tabId).style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
