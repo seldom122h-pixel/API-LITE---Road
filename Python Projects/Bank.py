@@ -27,7 +27,12 @@ while True:
 -------------------------------
     """
     print(menu_str)
-    menu_input = int(input("Enter your choice: "))
+
+    try:
+        menu_input = int(input("Enter your choice: "))
+    except ValueError:
+        print("Please enter a number!")
+        continue
 
     if menu_input == 1:
         print_balance()
@@ -37,12 +42,17 @@ while True:
         if pin_check != pin:
             print("Wrong pin code!")
         else:
-            withdraw = int(input("Enter your withdraw amount: "))
-            if withdraw > balance:
-                print("Wrong withdraw amount!")
-            if withdraw <= balance:
-                balance = balance - withdraw
-                print_balance()
+            try:
+                withdraw = int(input("Enter your withdraw amount: "))
+                if withdraw > balance:
+                    print("Wrong withdraw amount!")
+                if withdraw <= balance:
+                    balance = balance - withdraw
+                    print_balance()
+                    
+            except ValueError:
+                print("Please enter a number")
+                continue
 
     elif menu_input == 3:
         pin_check = int(input("Enter your pin code: "))
