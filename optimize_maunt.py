@@ -1,3 +1,2 @@
 def Optimize():
-    print('GoodBye!')
-    
+    return f'GoodBye!'
