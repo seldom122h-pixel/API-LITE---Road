@@ -1,6 +1,11 @@
 #Переменные
-pin = int(input("Enter your pin-code: "))
-print("Pin-code saved!")
+name = input('Hi! Enter your name >> ')
+
+try:
+    pin = int(input("Enter your pin-code: "))
+    print("Pin-code saved!")
+except ValueError:
+    print('Enter a number!')
 
 balance = 1000
 
@@ -47,7 +52,7 @@ while True:
             print_balance()
 
     if menu_input == "4":
-        print('Goodbye!')
+        print(f'Goodbye {name}!')
         break
     else:
         print("Please enter a valid choice!")
