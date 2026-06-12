@@ -1,11 +1,14 @@
 #Переменные
 name = input('Hi! Enter your name >> ')
 
-try:
-    pin = int(input("Enter your pin-code: "))
-    print("Pin-code saved!")
-except ValueError:
-    print('Enter a number!')
+while True:
+    try:
+        pin = int(input("Enter your pin-code: "))
+        print("Pin-code saved!")
+        break
+    except ValueError:
+        print('Enter a number!')
+        continue
 
 balance = 1000
 
