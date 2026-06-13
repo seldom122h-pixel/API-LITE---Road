@@ -6,7 +6,7 @@ while True:
         radius = float(input('Enter circle radius: '))
         break
     except ValueError:
-        print(f"Enter a valid value!")
+        print("Enter a valid value!")
         continue
 
 CircleC = 2 * math.pi * radius

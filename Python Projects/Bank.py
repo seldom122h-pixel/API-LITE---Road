@@ -61,7 +61,7 @@ while True:
         else:
             deposit = int(input("Enter your deposit amount: "))
             balance = balance + deposit
-            print(f"Deposit successful!")
+            print("Deposit successful!")
             print_balance()
 
     elif menu_input == 4:

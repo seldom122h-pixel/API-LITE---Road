@@ -51,4 +51,4 @@ while True:
         print('Goodbye!')
         exit()
     else:
-        print(f'Enter a valid number!')
+        print('Enter a valid number!')
