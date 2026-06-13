@@ -1,6 +1,7 @@
 import datetime as dt
 import random
 import string
+
 def get_date():
     print('-------------------------------')
     print(f" Today's date : {dt.datetime.now().date()}")
