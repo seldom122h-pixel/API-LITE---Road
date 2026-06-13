@@ -17,4 +17,4 @@ print(f"Circle lenght: {round(CircleC, 2)}")
 print(f"Сircle area: {round(CircleS, 2)}")
 print('----------------------')
 
-print( f"Goodbye!   ")
+print("Goodbye!")
